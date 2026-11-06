@@ -1,5 +1,7 @@
 # CineLumen
 
+![Página inicial do CineLumen](docs/tela.webp)
+
 Site e sistema de uma rede de cinema fictícia com unidade nas 27 capitais do Brasil. É uma demonstração: nada é vendido, nenhum dado sai do navegador e não existe servidor.
 
 Publicado em: https://toshiro01001.github.io/cinelumen/
@@ -47,4 +49,4 @@ Os testes percorrem os fluxos em 1366x800, iPhone 13 e 320 px, conferem as 27 ca
 
 HTML, CSS e JavaScript puros, sem build e sem CDN. Imagens em SVG. Fontes League Gothic e Figtree (licença SIL OFL 1.1) hospedadas no próprio site.
 
-Desenvolvido por Rodrigo Terroso Junior. O Claude, da Anthropic, foi usado como ferramenta durante o desenvolvimento.
+Desenvolvi este projeto e usei o Claude, da Anthropic, como ferramenta durante o desenvolvimento.
