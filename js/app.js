@@ -47,8 +47,7 @@ function atualizarTopo() {
   }
   const car = carrinho();
   const n = car.assentos.length + Object.values(car.itens).reduce((t, q) => t + q, 0);
-  btnCarrinho.replaceChildren(h('span', null, 'Carrinho'), h('b', { classe: 'carrinho-num', 'data-carrinho': n }, n));
-  btnCarrinho.setAttribute('aria-label', `Carrinho, ${n} ${n === 1 ? 'item' : 'itens'}`);
+  btnCarrinho.replaceChildren(h('span', null, 'Carrinho '), h('b', { classe: 'carrinho-num', 'data-carrinho': n }, n), h('span', { classe: 'so-leitor' }, n === 1 ? ' item' : ' itens'));
 }
 
 function abrirCapitais() {

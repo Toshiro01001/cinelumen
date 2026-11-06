@@ -113,7 +113,7 @@ dialog::backdrop { background: rgba(2, 8, 14, .82); }
 
 /* Cartaz */
 .grade-filmes { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 32px 18px; margin-top: 20px; }
-.grade-filmes.todos { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px 24px; max-width: 1040px; }
+.grade-filmes.todos { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px 24px; }
 .filme-capa { display: block; border-radius: 3px; }
 .cartaz { width: 100%; border-radius: 3px; box-shadow: 0 10px 28px rgba(0, 0, 0, .5); }
 .filme-capa .cartaz { transition: transform .18s ease; }
@@ -353,3 +353,5 @@ a.chip:focus-visible small { color: var(--noite); }
   .faixa { background: none; color: #000; border: 1px solid #000; }
   .topo, .rodape .botao, .dlg-acoes, .aviso-flutuante { display: none; }
 }
+.pagina-404 { max-width: 60ch; padding: 14vh var(--calha); }
+.pagina-404 h1 { margin-bottom: 16px; }

@@ -2,7 +2,7 @@
 
 ![Página inicial do CineLumen](docs/tela.webp)
 
-Site e sistema de uma rede de cinema fictícia com unidade nas 27 capitais do Brasil. É uma demonstração: nada é vendido, nenhum dado sai do navegador e não existe servidor.
+Fiz este site e sistema de uma rede de cinema fictícia com unidade nas 27 capitais do Brasil. É uma demonstração: nada é vendido, nenhum dado sai do navegador e não existe servidor.
 
 Publicado em: https://toshiro01001.github.io/cinelumen/
 

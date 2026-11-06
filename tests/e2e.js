@@ -439,13 +439,13 @@ function varrer() {
   const mr = new RegExp(`\\b(${marcas.join('|')})\\b`, 'i');
   checar('sem marca de terceiros no site', achou(mr, site).length === 0, achou(mr, site).join());
   checar('sem innerHTML, eval ou document.write', achou(/innerHTML|outerHTML|insertAdjacentHTML|document\.write|\beval\(|new Function/, site.filter((f) => f.endsWith('.js'))).length === 0);
-  const ext = tudo(site.filter((f) => /\.(html|js|css)$/.test(f))).flatMap(([f, t]) => (t.match(/https?:\/\/[^"'\s)<]+/g) || []).filter((u) => !u.startsWith('https://mileumalinhas.com.br') && !u.includes('www.w3.org')).map((u) => `${f} ${u}`));
+  const ext = tudo(site.filter((f) => /\.(html|js|css)$/.test(f))).flatMap(([f, t]) => (t.match(/https?:\/\/[^"'\s)<]+/g) || []).filter((u) => !u.startsWith('https://mileumalinhas.com.br') && !u.startsWith('https://toshiro01001.github.io/cinelumen/') && !u.includes('www.w3.org')).map((u) => `${f} ${u}`));
   checar('sem endereço de terceiros', ext.length === 0, ext.join());
   checar('CSP por meta presente', /http-equiv="Content-Security-Policy"[^>]*default-src 'none'/.test(fs.readFileSync(path.join(RAIZ, 'index.html'), 'utf8')));
   checar('logo de referência apagado', !fs.existsSync(path.join(RAIZ, 'assets/logo-referencia.png')));
   checar('sem CLAUDE.md', !fs.existsSync(path.join(RAIZ, 'CLAUDE.md')));
   const readme = fs.readFileSync(path.join(RAIZ, 'README.md'), 'utf8').trimEnd().split('\n');
-  checar('README termina com a linha pedida', readme[readme.length - 1] === 'Desenvolvido por Rodrigo Terroso Junior. O Claude, da Anthropic, foi usado como ferramenta durante o desenvolvimento.');
+  checar('README termina com a linha pedida', readme[readme.length - 1] === 'Desenvolvi este projeto e usei o Claude, da Anthropic, como ferramenta durante o desenvolvimento.');
   for (const f of fs.readdirSync(path.join(RAIZ, 'assets/cartazes'))) {
     const t = fs.readFileSync(path.join(RAIZ, 'assets/cartazes', f), 'utf8');
     if (/<image|href=/.test(t)) checar(`cartaz sem imagem externa: ${f}`, false);
