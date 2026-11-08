@@ -231,6 +231,10 @@ a.chip:focus-visible small { color: var(--noite); }
 .linhas li { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; }
 .teste-conflito { background: var(--noite-2); padding: 12px 16px; border-radius: 4px; }
 .teste-conflito summary { cursor: pointer; font-weight: 700; min-height: 28px; }
+.detalhes-tecnicos { background: var(--noite-2); padding: 12px 16px; border-radius: 4px; max-width: 760px; margin-top: 20px; }
+.detalhes-tecnicos summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
+.detalhes-tecnicos ul { margin-top: 8px; }
+.secao-sobre { border-top: 1px solid var(--noite-3); }
 
 /* Ingresso */
 .pagina-ingresso { max-width: 860px; }

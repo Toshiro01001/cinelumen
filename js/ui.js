@@ -67,6 +67,22 @@ export function etapas(atual, ligacoes = {}) {
     })));
 }
 
+// Bloco fechado com a parte técnica, para quem programa. Fica depois do texto simples, nunca na frente dele.
+export function detalhesTecnicos() {
+  const itens = [
+    'Feito em HTML, CSS e JavaScript puros, sem biblioteca, sem etapa de build e sem CDN. Qualquer servidor de arquivos estáticos serve, como o GitHub Pages.',
+    'As telas são montadas pelo JavaScript e as rotas ficam no # do endereço (hash), por isso o site funciona em qualquer subpasta.',
+    'A programação e os assentos já ocupados saem de uma função determinística que recebe a capital e a data: mesma capital e mesmo dia, sempre o mesmo resultado, sem banco de dados.',
+    'O relógio de cada capital usa o fuso horário IANA dela, lido com o Intl.DateTimeFormat do próprio navegador.',
+    'O carrinho fica no sessionStorage (vale só na aba). Reservas, ingressos e sessões cadastradas ficam no localStorage e o evento storage avisa as outras abas, por isso duas abas se comportam como dois clientes.',
+    'Segurança: Content Security Policy por meta sem nenhum terceiro, todo dado variável vira nó de texto (nunca HTML) e a leitura do armazenamento tolera dado corrompido ou bloqueado.',
+    'Testes de ponta a ponta com Playwright em três tamanhos de tela, na pasta tests do repositório.',
+  ];
+  return h('details', { classe: 'detalhes-tecnicos' },
+    h('summary', null, 'Detalhes técnicos (para quem programa)'),
+    h('ul', { classe: 'lista-texto' }, itens.map((t) => h('li', null, t))));
+}
+
 export function vazio(titulo, texto, rotulo, destino) {
   return h('section', { classe: 'vazio' },
     h('h1', { tabindex: -1 }, titulo), h('p', null, texto),

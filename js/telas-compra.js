@@ -78,7 +78,7 @@ export function telaAssentos(ctx, sessaoId) {
       meus.length ? h('ul', { classe: 'lista-assentos' }, meus.map((a) => h('li', null, a.id))) : h('p', { classe: 'lado-nota' }, `Até ${MAX_ASSENTOS} por compra. Seguramos cada poltrona por ${MINUTOS_RESERVA} minutos.`),
       meus.length ? contador() : null,
       recadoLocal,
-      h('p', { classe: 'lado-total' }, h('span', null, 'Total em inteiras'), h('b', null, moeda(total))),
+      h('p', { classe: 'lado-total' }, h('span', null, 'Total, contando todos como inteira'), h('b', null, moeda(total))),
       meus.length
         ? h('a', { classe: 'botao', href: '#/tipos', id: 'continuar' }, 'Continuar para os ingressos')
         : h('span', { classe: 'botao botao-off', id: 'continuar', 'aria-disabled': 'true' }, 'Escolha um assento'),
@@ -160,7 +160,7 @@ export function telaTipos() {
           h('input', { type: 'radio', name: `tipo-${a.id}`, value: v, checked: a.tipo === v ? true : null,
             onchange: () => { trocarTipo(a.id, v); totalEl.textContent = moeda(totais().total); anunciar(`${a.id}: ${v}. Total ${totalEl.textContent}.`); } }),
           h('span', null, t))))),
-      h('p', { classe: 'secao-nota' }, 'Num cinema de verdade a meia pede comprovante na entrada. Aqui só muda a conta.')),
+      h('p', { classe: 'secao-nota' }, 'Meia-entrada é o ingresso pela metade do preço, para estudante, idoso e outros casos previstos em lei. Num cinema de verdade ela pede comprovante na entrada. Aqui só muda a conta.')),
       h('aside', { classe: 'lado', 'aria-label': 'Total parcial' },
         h('h2', null, plural(car.assentos.length, 'ingresso', 'ingressos')),
         contador(),
@@ -241,8 +241,8 @@ export function telaResumo(ctx) {
           itens.length ? listaItens(itens) : h('p', null, 'Nenhum item. O filme vai ser longo, viu?'),
           h('a', { href: '#/bomboniere' }, itens.length ? 'Mudar os itens' : 'Adicionar itens')),
         h('details', { classe: 'teste-conflito' },
-          h('summary', null, 'Testar conflito de assento'),
-          h('p', null, `Simula outra pessoa comprando o ${primeiro} enquanto você decide. Ao pagar, o sistema percebe e devolve você ao mapa.`),
+          h('summary', null, 'Testar o que acontece se outra pessoa pegar seu assento'),
+          h('p', null, `Este botão simula outra pessoa comprando o ${primeiro} enquanto você decide. Quando você tentar pagar, o sistema percebe o conflito, avisa e devolve você ao mapa da sala para escolher outro lugar.`),
           h('button', { type: 'button', classe: 'botao botao-linha', id: 'simular-conflito',
             onclick: () => { simularOutroCliente(primeiro); avisar(`Outro cliente comprou o ${primeiro}. Agora tente pagar.`); } }, `Outra pessoa compra o ${primeiro}`)),
         h('button', { type: 'button', classe: 'botao-texto', onclick: () => { largarAssentos(); ctx.ir('#/'); } }, 'Soltar os assentos e recomeçar')),
@@ -324,7 +324,7 @@ export function telaPagamento(ctx) {
     etapas(6, ligacoesFluxo(sessao)),
     h('h1', { tabindex: -1 }, 'Pagamento simulado'),
     faixaSessao(sessao),
-    h('p', { classe: 'secao-nota' }, 'Nenhum dado é pedido e nenhum valor é cobrado. Esta etapa só mostra como a compra andaria.'),
+    h('p', { classe: 'secao-nota' }, 'Nenhum dado é pedido e nenhum valor é cobrado. Escolha uma forma de pagamento de mentira e toque em confirmar: esta etapa só mostra como a compra andaria num cinema de verdade.'),
     contador(),
     form, passos);
 }
@@ -383,7 +383,7 @@ export function telaMeusIngressos() {
   };
   return h('div', { classe: 'pagina pagina-ingresso' },
     h('h1', { tabindex: -1 }, 'Meus ingressos'),
-    h('p', { classe: 'secao-nota' }, `${plural(lista.length, 'compra guardada', 'compras guardadas')} só neste navegador, sem nenhum dado pessoal.`),
+    h('p', { classe: 'secao-nota' }, `${plural(lista.length, 'compra guardada', 'compras guardadas')} só neste navegador, sem nenhum dado pessoal. Os ingressos são de teste: não valem entrada em lugar nenhum.`),
     h('ul', { classe: 'lista-ingressos' }, lista.map((i) => h('li', null,
       h('p', { classe: 'ingresso-estado' }, fim(i) ? 'Sessão já realizada' : 'Sessão futura'),
       cartaoIngresso(i)))));
