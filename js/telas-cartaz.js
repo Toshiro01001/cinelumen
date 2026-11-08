@@ -2,7 +2,7 @@
 import { BOMBONIERE, FILMES, REGIOES, UFS, filmePorId, ufPorSigla, unidadeDe } from './dados.js';
 import { agoraEm, dataCurta, dataLonga, detalhes, jaPassou, mapaDaSala, ocupadosBase, programaDoDia, proximosDias, salasDe, somaDias } from './programacao.js';
 import { capitalAtual, sessoesExtras, vendidosDe } from './estado.js';
-import { cartaz, duracao, etapas, h, horaLetreiro, letreiro, moeda, vazio } from './ui.js';
+import { cartaz, detalhesTecnicos, duracao, etapas, h, horaLetreiro, letreiro, moeda, vazio } from './ui.js';
 
 const semAcento = (t) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
@@ -71,7 +71,7 @@ export function telaInicio(ctx) {
         letreiro(['ESCOLHA SUA CAPITAL', 'A PIPOCA ESPERA']),
         h('div', { classe: 'palco-texto' },
           h('h1', { tabindex: -1 }, 'Uma sala de cinema em cada capital do Brasil. Todas de mentira, com muito capricho.'),
-          h('p', null, 'Escolha onde quer assistir. A programação, o relógio e a sala mudam junto com a capital.')),
+          h('p', null, 'Primeiro, escolha a capital na lista abaixo. Depois toque em um filme e em um horário: o site mostra o mapa da sala para você escolher a poltrona. A programação, o relógio e a sala mudam junto com a capital.')),
       ),
       h('section', { classe: 'faixa-secao', 'aria-labelledby': 'tit-escolha' },
         h('h2', { id: 'tit-escolha' }, 'Em qual capital vai ser a sessão?'),
@@ -79,7 +79,8 @@ export function telaInicio(ctx) {
       h('section', { classe: 'faixa-secao', 'aria-labelledby': 'tit-cartaz' },
         h('h2', { id: 'tit-cartaz' }, 'Em cartaz na rede'),
         h('p', { classe: 'secao-nota' }, 'Os horários aparecem depois que você escolhe a capital.'),
-        h('ul', { classe: 'grade-filmes todos' }, FILMES.map((f) => h('li', null, cardFilme(f, []))))));
+        h('ul', { classe: 'grade-filmes todos' }, FILMES.map((f) => h('li', null, cardFilme(f, []))))),
+      secaoSobre());
   }
   const { data, lista, hoje, agora } = programaHoje(uf);
   const unidade = unidadeDe(u);
@@ -110,7 +111,18 @@ export function telaInicio(ctx) {
         h('a', { classe: 'botao botao-linha', href: '#/bomboniere' }, 'Abrir a bomboniere')),
       h('ul', null, BOMBONIERE.map((g) => g.itens[g.itens.length - 1]).map((it) => h('li', null,
         h('img', { src: `assets/bomboniere/${it.id}.svg`, alt: '', width: 120, height: 120, loading: 'lazy' }),
-        h('span', null, it.nome), h('small', null, moeda(it.preco)))))));
+        h('span', null, it.nome), h('small', null, moeda(it.preco)))))),
+    secaoSobre());
+}
+
+// Explica o site em poucas frases para quem chegou agora. A parte técnica fica fechada, no fim.
+function secaoSobre() {
+  return h('section', { classe: 'faixa-secao secao-sobre', 'aria-labelledby': 'tit-sobre' },
+    h('h2', { id: 'tit-sobre' }, 'O que é este site'),
+    h('p', null, 'O CineLumen é uma demonstração de site de cinema feita pela Mil e Uma Linhas!. O cinema, os filmes, os endereços e os preços são inventados. Nada é vendido, nada é cobrado e nenhum dado seu sai do navegador. Ele existe para mostrar como ficaria o site de um cinema de verdade.'),
+    h('p', null, 'Como usar: escolha a capital, o filme e o horário, marque a poltrona no mapa da sala, diga se cada ingresso é inteira ou meia, junte pipoca e bebida se quiser e passe por um pagamento de mentira. No fim sai um ingresso com código fictício, guardado em "Meus ingressos".'),
+    h('p', null, h('a', { href: '#/como-funciona' }, 'Ler a explicação completa')),
+    detalhesTecnicos());
 }
 
 function cardFilme(f, sessoes) {

@@ -2,7 +2,7 @@
 import { FILMES, filmePorId, ufPorSigla, unidadeDe } from './dados.js';
 import { agoraEm, conflitoDeSala, dataCurta, detalhes, jaPassou, mapaDaSala, ocupadosBase, programaDoDia, proximosDias, salasDe, vendasSimuladas } from './programacao.js';
 import { adicionarSessao, capitalAtual, meusIngressos, removerSessao, sessoesExtras, vendidosDe } from './estado.js';
-import { avisar, h, moeda, vazio } from './ui.js';
+import { avisar, detalhesTecnicos, h, moeda, vazio } from './ui.js';
 
 let dataPainel = null;
 
@@ -27,6 +27,7 @@ export function telaGerente(ctx) {
   const u = ufPorSigla(uf);
   if (!u) {
     return h('div', { classe: 'pagina' }, h('h1', { tabindex: -1 }, 'Painel do gerente'),
+      h('p', null, 'Esta é a tela de quem administra o cinema: mostra quantos lugares cada sessão vendeu, permite cadastrar sessões novas e compara as vendas das 27 capitais. Na demonstração ela fica aberta para qualquer visitante.'),
       h('p', null, 'O painel mostra uma unidade por vez. Escolha a capital primeiro.'),
       h('button', { type: 'button', classe: 'botao', onclick: ctx.abrirCapitais }, 'Escolher capital'));
   }
@@ -89,9 +90,11 @@ export function telaGerente(ctx) {
 
   return h('div', { classe: 'pagina' },
     h('h1', { tabindex: -1 }, `Painel do gerente: ${unidadeDe(u).nome}`),
-    h('p', { classe: 'secao-nota' }, 'Na demonstração o painel fica aberto. A versão real pede login e permissão por unidade.'),
+    h('p', null, 'Esta é a tela de quem administra o cinema. Aqui dá para ver quantos lugares cada sessão vendeu, cadastrar uma sessão nova e comparar as vendas das 27 capitais. Tudo é fictício.'),
+    h('p', { classe: 'secao-nota' }, 'Na demonstração o painel fica aberto para qualquer visitante. A versão real pede login e permissão por unidade.'),
     h('section', { 'aria-labelledby': 'tit-ocup' },
       h('h2', { id: 'tit-ocup' }, 'Ocupação por sessão'),
+      h('p', { classe: 'secao-nota' }, 'Quantos lugares de cada sessão já estão ocupados. Escolha o dia para ver outra data. Só as sessões cadastradas aqui, e ainda sem venda, podem ser excluídas.'),
       h('div', { classe: 'campo campo-linha' }, h('label', { for: 'painel-dia' }, 'Dia'),
         h('select', { id: 'painel-dia', onchange: (e) => { dataPainel = e.target.value; ctx.redesenhar(); } },
           dias.map((d) => h('option', { value: d, selected: d === dataPainel ? true : null }, dataCurta(d))))),
@@ -101,6 +104,7 @@ export function telaGerente(ctx) {
         h('tbody', null, linhas))),
     h('section', { 'aria-labelledby': 'tit-nova' },
       h('h2', { id: 'tit-nova' }, 'Cadastrar sessão'),
+      h('p', { classe: 'secao-nota' }, 'Escolha o filme, a sala, o dia e o horário e toque em "Cadastrar sessão". A sessão nova aparece na tabela acima e também na programação, pronta para venda.'),
       h('form', { classe: 'form-sessao', novalidate: true, onsubmit: cadastrar },
         campo('nova-filme', 'Filme', selFilme), campo('nova-sala', 'Sala', selSala),
         campo('nova-data', 'Dia', selData), campo('nova-hora', 'Horário', inHora),
@@ -123,7 +127,8 @@ export function telaComoFunciona() {
   const lista = (itens) => h('ul', { classe: 'lista-texto' }, itens.map((t) => h('li', null, t)));
   return h('div', { classe: 'pagina pagina-texto' },
     h('h1', { tabindex: -1 }, 'Como isto funciona'),
-    h('p', null, 'O CineLumen é uma demonstração completa de site e sistema de cinema. Ele roda inteiro no seu navegador: não existe servidor, não existe cobrança e nenhum dado sai daqui.'),
+    h('p', null, 'O CineLumen é uma demonstração completa de site e sistema de cinema, feita pela Mil e Uma Linhas! para mostrar o que sabemos fazer. O cinema, os filmes e os preços são inventados. Ele roda inteiro no seu navegador: não existe servidor, não existe cobrança e nenhum dado sai daqui.'),
+    h('p', null, 'Esta página explica, em linguagem simples, o caminho de uma compra, o que dá para adaptar para o seu negócio e o que uma versão de verdade precisaria a mais. No fim há um bloco com os detalhes técnicos, para quem programa.'),
     h('section', null, h('h2', null, 'O caminho de uma compra'),
       h('ol', { classe: 'lista-texto' }, [
         'Você escolhe o estado e a capital. A escolha fica salva neste navegador.',
@@ -150,7 +155,8 @@ export function telaComoFunciona() {
         'Ingresso com código validado na porta, nota fiscal e as obrigações do setor, como os relatórios de bilheteria, a confirmar com o contador e o cliente.',
         'Filmes, cartazes e classificação indicativa licenciados com as distribuidoras.'])),
     h('section', null, h('h2', null, 'O que foi usado'),
-      h('p', null, 'HTML, CSS e JavaScript puros, sem bibliotecas externas. As imagens são SVG desenhado para este projeto, e as fontes League Gothic e Figtree, de licença aberta, ficam no próprio site. A política de segurança bloqueia qualquer conexão a terceiros.')),
+      h('p', null, 'HTML, CSS e JavaScript puros, sem bibliotecas externas. As imagens são SVG (desenho vetorial, que não perde qualidade ao ampliar) feito para este projeto, e as fontes League Gothic e Figtree, de licença aberta, ficam no próprio site. A política de segurança bloqueia qualquer conexão a terceiros.'),
+      detalhesTecnicos()),
     h('p', null, h('a', { classe: 'botao', href: '#/' }, 'Voltar para o cartaz')));
 }
 export { vazio };
