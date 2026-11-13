@@ -28,7 +28,7 @@ body::after { inset: 0; background: radial-gradient(ellipse 75% 75% at 50% 50%, 
 
 /* Topo e faixa */
 .faixa { background: var(--ouro-claro); letter-spacing: .01em; }
-.topo { background: rgba(7, 8, 12, .84); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom-color: rgba(var(--lua), .14); }
+.topo { background: rgba(7, 8, 12, .94); border-bottom-color: rgba(var(--lua), .14); }
 .rodape { background: rgba(7, 8, 12, .7); border-top-color: rgba(var(--lua), .14); }
 input[type="search"], input[type="time"], select { border-color: #7B8091; }
 

@@ -30,6 +30,7 @@ const pontos = [];
 }
 let tempo = 3.7; // ângulo da luz; continua de onde parou quando a tela é redesenhada
 let luaAtual = null; let luaVisivel = false; let quadro = 0; let ultimo = 0;
+let anterior = 0; let lentos = 0; let luaParada = false; // aparelho lento: a lua fica parada em vez de travar a página
 const olho = new IntersectionObserver((es) => { luaVisivel = es.some((e) => e.isIntersecting); agendar(); });
 
 function pintarLua(ctx) {
@@ -46,7 +47,9 @@ function pintarLua(ctx) {
 }
 function passo(agora) {
   quadro = 0;
-  if (!luaAtual || !luaAtual.isConnected || !luaVisivel || document.hidden) return;
+  if (!luaAtual || !luaAtual.isConnected || !luaVisivel || document.hidden) { anterior = 0; return; }
+  if (anterior) { lentos = agora - anterior > 70 ? lentos + 1 : 0; if (lentos >= 12) { luaParada = true; return; } }
+  anterior = agora;
   if (agora - ultimo >= 33) { // 30 quadros por segundo bastam para a luz girar
     tempo += Math.min(0.1, (agora - ultimo) / 1000) * 0.22;
     ultimo = agora;
@@ -54,7 +57,7 @@ function passo(agora) {
   }
   agendar();
 }
-function agendar() { if (!quadro && !parado.matches && luaAtual && luaVisivel && !document.hidden) quadro = requestAnimationFrame(passo); }
+function agendar() { if (!quadro && !luaParada && !parado.matches && luaAtual && luaVisivel && !document.hidden) quadro = requestAnimationFrame(passo); }
 document.addEventListener('visibilitychange', agendar);
 
 function porLua() {
