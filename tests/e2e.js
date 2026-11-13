@@ -31,7 +31,8 @@ function checar(nome, cond, detalhe = '') {
 
 // Vigia de console, erro de página e requisição externa em cada página aberta.
 function vigiar(page, rotulo, base, problemas) {
-  page.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') problemas.push(`${rotulo} console: ${m.text()}`); });
+  // "GL Driver Message" é aviso do desenho por software do ambiente de teste (sem placa de vídeo), não do site.
+  page.on('console', (m) => { if ((m.type() === 'error' || m.type() === 'warning') && !/GL Driver Message/.test(m.text())) problemas.push(`${rotulo} console: ${m.text()}`); });
   page.on('pageerror', (e) => problemas.push(`${rotulo} erro: ${e.message}`));
   page.on('request', (r) => { if (!r.url().startsWith(base) && !r.url().startsWith('data:')) problemas.push(`${rotulo} externo: ${r.url()}`); });
   page.on('response', (r) => { if (r.status() >= 400) problemas.push(`${rotulo} ${r.status()}: ${r.url()}`); });

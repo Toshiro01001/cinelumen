@@ -1,0 +1,72 @@
+/* CineLumen lunar: cinema antigo + céu de espaço. Carregado depois de estilo.css; só troca a aparência.
+   Céu: "Nebulosa" (ProfitizeBuild) sobre o GrainGradient da Paper. Lua: "Dither Sphere" (GetLayers).
+   Película: grão e vinheta do estilo "Kumo" (GetLayers). Detalhes em docs e no README. */
+:root {
+  --noite: #07080C;
+  --noite-2: #0F1117;
+  --noite-3: #1C1F28;
+  --linha: #474C5B;
+  --ouro: #B98A3A;
+  --ouro-claro: #F0C36A;
+  --marfim: #EFE9D8;
+  --neblina: #B6B8C0;
+  --luz: #FFF4CF;
+  --lua: 239, 233, 216;
+}
+body.luzes-baixas { background: #020203; }
+
+/* Céu: fica atrás de tudo. Sem WebGL2, sobra o degradê parado. */
+.ceu { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .3; transition: opacity .9s ease; isolation: isolate; background: radial-gradient(ellipse 60% 55% at 0 0, rgba(60, 79, 192, .6), transparent 70%), radial-gradient(ellipse 60% 55% at 100% 100%, rgba(60, 79, 192, .5), transparent 70%), #000; }
+.ceu canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; contain: strict; scale: -1 1; }
+body.luzes-baixas .ceu { opacity: .14; }
+
+/* Película: grão que treme e vinheta de projetor, por cima da página, sem pegar toque. */
+body::before, body::after { content: ""; position: fixed; pointer-events: none; z-index: 40; }
+body::before { inset: -120px; background: url("../assets/grao.png") 0 0 / 180px 180px; opacity: .08; animation: grao .9s steps(1) infinite; }
+body::after { inset: 0; background: radial-gradient(ellipse 75% 75% at 50% 50%, transparent 55%, rgba(0, 0, 0, .46)); }
+@keyframes grao { 0% { translate: 0 0; } 25% { translate: -38px 22px; } 50% { translate: 26px -44px; } 75% { translate: -18px -30px; } }
+
+/* Topo e faixa */
+.faixa { background: var(--ouro-claro); letter-spacing: .01em; }
+.topo { background: rgba(7, 8, 12, .94); border-bottom-color: rgba(var(--lua), .14); }
+.rodape { background: rgba(7, 8, 12, .7); border-top-color: rgba(var(--lua), .14); }
+input[type="search"], input[type="time"], select { border-color: #7B8091; }
+
+/* Palco: a lua nasce atrás do letreiro, a plateia olha de baixo. */
+.palco { isolation: isolate; background: url("../assets/poltronas.svg") repeat-x left bottom / 120px 110px; padding-top: calc(min(.4928 * (min(100vw, 1400px) - 2 * var(--calha) - 40px) * .5556, 325px) + 26px); }
+.palco-texto h1 { text-shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 0 28px rgba(0, 0, 0, .45); }
+.palco-texto p { color: #C9CBD2; }
+.marquise { background-color: #0B0C10; box-shadow: 0 0 0 1px rgba(0, 0, 0, .6), 0 26px 60px rgba(0, 0, 0, .6); }
+.palco > .marquise { grid-column: 1; grid-row: 1; }
+.palco > .palco-texto { grid-column: 2; grid-row: 1; }
+.lua { grid-column: 1; grid-row: 1; align-self: start; justify-self: center; width: min(88%, 580px); height: 0; position: relative; z-index: -1; pointer-events: none; }
+.lua-disco { position: absolute; left: 0; top: 0; width: 100%; aspect-ratio: 1; translate: 0 -56%; }
+.lua canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.lua-disco::before { content: ""; position: absolute; inset: -22%; border-radius: 50%; background: radial-gradient(circle, rgba(var(--lua), .2) 0 34%, rgba(var(--lua), .07) 48%, transparent 66%); }
+.dat { display: inline-block; white-space: pre; }
+
+/* Seções: borda de película com perfurações */
+.faixa-secao { position: relative; }
+.faixa-secao::before { content: ""; position: absolute; left: var(--calha); right: var(--calha); top: 0; height: 18px; border-radius: 2px; background: repeating-linear-gradient(90deg, transparent 0 9px, rgba(var(--lua), .3) 9px 19px, transparent 19px 28px) center / 100% 8px no-repeat, #101217; }
+.faixa-secao > h2:first-child, .faixa-secao > h2 { margin-top: 18px; }
+.seletor-regiao h3 { border-bottom-color: rgba(var(--lua), .16); }
+.cartaz { box-shadow: 0 0 0 1px rgba(var(--lua), .12), 0 14px 34px rgba(0, 0, 0, .65); }
+dialog { box-shadow: 0 30px 80px rgba(0, 0, 0, .7); }
+
+/* Mapa da sala: vendidos em cinza de regolito */
+.assento.vendido { background: #1A1C23; border-color: #747987; }
+.assento.vendido::after { background: linear-gradient(45deg, transparent 44%, #A9ACB6 44% 56%, transparent 56%), linear-gradient(-45deg, transparent 44%, #A9ACB6 44% 56%, transparent 56%); }
+.ingresso dt, .ingresso .secao-nota { color: #474A55; }
+.ingresso-canhoto { border-color: #7A7D88; }
+
+@media (max-width: 980px) {
+  .palco { padding-top: calc(min(.4928 * (100vw - 2 * var(--calha)), 325px) + 24px); }
+  .palco > .palco-texto { grid-column: 1; grid-row: 2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+  .ceu { transition: none; }
+}
+@media print {
+  body::before, body::after, .ceu, .lua, .faixa-secao::before { display: none; }
+}

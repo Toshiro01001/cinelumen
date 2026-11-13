@@ -34,9 +34,19 @@ O botão "Restaurar demonstração", no rodapé, apaga tudo e volta o site ao co
 
 A reserva só vale dentro de um navegador. Uma versão real precisa de servidor, pagamento de verdade, login do gerente e tratamento de dados conforme a LGPD. A lista completa está na seção "Como isto funciona" do site.
 
+## Visual lunar
+
+O visual é de cinema antigo com céu de espaço. Ele fica em arquivos separados (`css/lunar.css`, `js/lunar.js`, `js/ceu.js`) e não toca nas regras do cinema: se essa camada falhar, o site continua funcionando igual.
+
+- **Céu:** duas manchas de luz com grão de filme, nos cantos da tela, atrás de tudo. É o fundo "Nebulosa" do ProfitizeBuild, feito sobre o GrainGradient da Paper (`@paper-design/shaders` 0.0.82, licença Apache-2.0). Eu compilei só o necessário em `js/ceu.js`; a textura de ruído é `assets/ruido.png` e a licença está em `docs/licencas/paper-shaders.txt`. Sem WebGL2, fica um degradê parado.
+- **Lua:** nasce atrás do letreiro, desenhada em pontos (retícula) com a luz girando devagar, como as fases. A conta dos pontos vem do "Dither Sphere" do GetLayers; os mares da lua e os pontinhos do lado escuro fui eu que acrescentei.
+- **Título:** as letras aparecem uma a uma, com os números do "Typewriter" do GetLayers (mola 600/30, 45 ms por letra). O original é em React; aqui refiz em JavaScript puro.
+- **Película:** grão que treme e vinheta de projetor por cima da página, seguindo o estilo "Kumo" do GetLayers, e uma faixa de perfurações de filme separando as seções.
+- Quem pede menos movimento no aparelho vê tudo parado. A lua e o céu param quando saem da tela.
+
 ## Detalhes técnicos
 
-- HTML, CSS e JavaScript puros, sem build, sem biblioteca e sem CDN. Imagens em SVG. Fontes League Gothic e Figtree (licença SIL OFL 1.1) hospedadas no próprio site.
+- HTML, CSS e JavaScript puros, sem CDN. A única biblioteca é a do céu animado (veja "Visual lunar"), já compilada em `js/ceu.js`. Imagens em SVG. Fontes League Gothic e Figtree (licença SIL OFL 1.1) hospedadas no próprio site.
 - As telas são montadas pelo JavaScript e as rotas ficam no `#` do endereço (hash), por isso o site funciona em qualquer subpasta.
 - Fuso: cada capital tem seu fuso IANA, lido pelo `Intl.DateTimeFormat` do navegador.
 - Armazenamento: o carrinho fica por aba (`sessionStorage`); reservas, ingressos e sessões cadastradas ficam no `localStorage`, e o evento `storage` sincroniza as abas abertas.
